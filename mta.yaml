@@ -26,6 +26,38 @@ modules:
   - name: cap-ui-db
   parameters:
     buildpack: nodejs_buildpack
+
+- name: miyasutabooksui-destination-content
+  type: com.sap.application.content
+  requires:
+  - name: cap-ui-destination-service
+    parameters:
+      content-target: true
+  - name: cap-ui-repo-host
+    parameters:
+      service-key:
+        name: miyasutabooksui-repo-host-key
+  - name: cap-ui-auth
+    parameters:
+      service-key:
+        name: miyasutabooksui-uaa-key
+  parameters:
+    content:
+      instance:
+        destinations:
+        - Name: miyasutabooksui_html_repo_host
+          ServiceInstanceName: miyasutabooksui-html5-srv
+          ServiceKeyName: miyasutabooksui-repo-host-key
+          sap.cloud.service: miyasutabooksui
+        - Authentication: OAuth2UserTokenExchange
+          Name: miyasutabooksui_uaa
+          ServiceInstanceName: cap-ui-auth
+          ServiceKeyName: miyasutabooksui-uaa-key
+          sap.cloud.service: miyasutabooksui
+        existing_destinations_policy: ignore
+  build-parameters:
+    no-source: true
+
 - name: cap-ui-app-content
   type: com.sap.application.content
   path: .
