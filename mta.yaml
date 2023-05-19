@@ -41,6 +41,7 @@ modules:
     parameters:
       service-key:
         name: cap-ui-auth-key
+  - name: srv-api # Add
   parameters:
     content:
       instance:
@@ -54,7 +55,24 @@ modules:
           ServiceInstanceName: cap-ui-auth
           ServiceKeyName: cap-ui-auth-key
           sap.cloud.service: miyasutabooksui
-        existing_destinations_policy: ignore
+          ### CAP Destination
+        - Authentication: OAuth2UserTokenExchange
+          Name: cap-ui-srv2
+          ServiceInstanceName: cap-ui-auth
+          ServiceKeyName: cap-ui-auth-key
+          URL: ~{srv-api/srv-url}
+          HTML5.DynamicDestination: true
+
+        # resuires ServiceInstanceName
+        # - Authentication: NoAuthentication
+        #   Name: cap-ui-srv3
+        #   ProxyType: Internet
+        #   Type: HTTP
+        #   URL: ~{srv-api/srv-url}
+        #   HTML5.DynamicDestination: true
+        #   HTML5.ForwardAuthToken: true            
+
+        existing_destinations_policy: update
   build-parameters:
     no-source: true
 
@@ -105,6 +123,8 @@ resources:
     service-plan: app-host
 - name: cap-ui-destination-service
   type: org.cloudfoundry.managed-service
+  requires:
+    - name: srv-api # Add
   parameters:
     config:
       HTML5Runtime_enabled: true
@@ -115,7 +135,14 @@ resources:
             Name: ui5
             ProxyType: Internet
             Type: HTTP
-            URL: https://ui5.sap.com
+            URL: https://ui5.sap.com        
+          - Authentication: NoAuthentication
+            Name: cap-ui-srv3
+            ProxyType: Internet
+            Type: HTTP
+            URL: ~{srv-api/srv-url}
+            HTML5.DynamicDestination: true
+            HTML5.ForwardAuthToken: true               
           existing_destinations_policy: update
       version: 1.0.0
     service: destination
