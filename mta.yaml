@@ -36,23 +36,23 @@ modules:
   - name: cap-ui-repo-host
     parameters:
       service-key:
-        name: miyasutabooksui-repo-host-key
+        name: cap-ui-repo-host-key
   - name: cap-ui-auth
     parameters:
       service-key:
-        name: miyasutabooksui-uaa-key
+        name: cap-ui-auth-key
   parameters:
     content:
       instance:
         destinations:
-        - Name: miyasutabooksui_html_repo_host
-          ServiceInstanceName: miyasutabooksui-html5-srv
-          ServiceKeyName: miyasutabooksui-repo-host-key
+        - Name: cap-ui_html_repo_host
+          ServiceInstanceName: cap-ui-html5-srv
+          ServiceKeyName: cap-ui-repo-host-key
           sap.cloud.service: miyasutabooksui
         - Authentication: OAuth2UserTokenExchange
-          Name: miyasutabooksui_uaa
+          Name: cap-ui_uaa
           ServiceInstanceName: cap-ui-auth
-          ServiceKeyName: miyasutabooksui-uaa-key
+          ServiceKeyName: cap-ui-auth-key
           sap.cloud.service: miyasutabooksui
         existing_destinations_policy: ignore
   build-parameters:
