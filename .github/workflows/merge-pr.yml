@@ -24,11 +24,7 @@ jobs:
       - name: テスト実行
         run: echo "Test Success" # もしくはテストスクリプトを指定
 
-      - name: マージ（テストが成功した場合）
-        if: success()
-        run: |
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-          git checkout main
-          git merge --no-ff ${{ github.event.pull_request.head.sha }}
-          git push origin main
+      - name: マージ
+        uses: "pascalgn/automerge-action@v0.15.6"
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
