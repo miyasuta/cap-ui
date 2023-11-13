@@ -15,7 +15,7 @@
     "devDependencies": {
         "@sap/ux-specification": "^1.108.5",
         "sqlite3": "^5",
-        "rimraf": "^3.0.2"
+        "rimraf": "^5.0.0"
     },
     "scripts": {
         "start": "cds-serve",
